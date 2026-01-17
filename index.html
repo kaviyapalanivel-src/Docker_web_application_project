@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Explore the Cosmos — Space Landing</title>
+  <meta name="description" content="Discover missions, join our community, and explore the universe." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#020317;
+      --accent:#7ce7ff;
+      --muted:#9aa8c6;
+      --card:#091026;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,231,255,0.04), transparent),
+                  radial-gradient(900px 400px at 90% 80%, rgba(124,231,255,0.02), transparent),
+                  var(--bg);
+      color:#e6f0ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      line-height:1.4;
+    }
+
+    /* Starfield using multiple box-shadows on pseudo elements for performance */
+    .stars, .stars:after {
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      background:transparent;
+    }
+    .stars:before, .stars:after{
+      content:"";
+      position:absolute;
+      width:2px;height:2px;
+      background:transparent;
+      box-shadow:
+        100px 200px #fff,
+        200px 40px #cfeffd,
+        340px 580px #fff,
+        540px 130px #bfefff,
+        800px 720px #fff,
+        1200px 60px #cfeffd,
+        60px 720px #fff,
+        920px 420px #fff,
+        1400px 300px #bfefff,
+        2000px 500px #fff;
+      transform:translateZ(0);
+      animation: twinkle 6s linear infinite;
+      opacity:.9;
+    }
+    .stars:after{
+      width:1px;height:1px;
+      box-shadow:
+        30px 70px #fff,
+        410px 160px #bfefff,
+        610px 540px #fff,
+        1210px 230px #fff,
+        810px 920px #bfefff,
+        1500px 100px #fff,
+        1720px 420px #fff,
+        620px 220px #bfefff;
+      animation-duration:10s;
+      opacity:.7;
+      transform:scale(.7);
+    }
+    @keyframes twinkle { 50% {opacity:.3} 100% {opacity:1} }
+
+    header{
+      position:relative;
+      z-index:5;
+      padding:28px 28px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .logo{
+      display:flex;gap:12px;align-items:center;font-weight:700;letter-spacing:-0.02em;
+    }
+    .logo .mark{
+      width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#1b2a5a,#1bb7ff);
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:20px;
+      box-shadow:0 6px 18px rgba(27,183,255,0.12);
+    }
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#5fbfff);
+      color:#021026;padding:10px 16px;border-radius:10px;font-weight:700;border:none;cursor:pointer;
+      box-shadow:0 8px 24px rgba(124,231,255,0.12);
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding:80px 24px 56px;
+      display:flex;
+      gap:48px;
+      align-items:center;
+      justify-content:center;
+      min-height:70vh;
+    }
+    .hero-inner{
+      width:100%;
+      max-width:1200px;
+      display:grid;
+      grid-template-columns:1fr 460px;
+      gap:32px;
+      align-items:center;
+    }
+    .hero h1{
+      font-size:clamp(36px,6vw,64px);
+      margin:0 0 18px 0;
+      line-height:1.02;
+      letter-spacing:-0.02em;
+      color:#f6fdff;
+    }
+    .hero p{color:var(--muted);font-size:18px;margin:0 0 22px}
+    .hero .buttons{display:flex;gap:12px;flex-wrap:wrap}
+    .btn-ghost{
+      background:transparent;border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer;
+    }
+
+    /* Right visual: planet card */
+    .visual{
+      position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;padding:18px;border:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+      min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+      box-shadow: 0 10px 40px rgba(2,3,23,0.6);
+    }
+    .planet{
+      width:280px;height:280px;border-radius:50%;
+      background: radial-gradient(circle at 30% 25%, #ffd5b3, #ff9b61 20%, #b25a9c 55%, #2a1b5a 100%);
+      box-shadow: inset 0 -20px 60px rgba(0,0,0,0.35), 0 18px 40px rgba(0,0,0,0.5);
+      position:relative;transform:translateY(0);transition:transform .18s ease-out;
+    }
+    .planet::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 80px rgba(123,201,255,0.06) inset}
+
+    /* Features */
+    .features{
+      max-width:1200px;margin:30px auto 80px;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+    }
+    .card{
+      background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+    }
+    .card h3{margin:0 0 8px}
+    .muted{color:var(--muted);font-size:15px}
+
+    /* Newsletter */
+    .newsletter{
+      max-width:920px;margin:0 auto 80px;padding:20px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border-radius:14px;border:1px solid rgba(255,255,255,0.03);display:flex;gap:16px;align-items:center;justify-content:space-between;
+    }
+    .newsletter form{display:flex;gap:12px;align-items:center;width:100%}
+    .input{
+      flex:1;background:var(--glass);border-radius:10px;padding:12px 14px;border:1px solid rgba(255,255,255,0.03);color:#eaf7ff;
+    }
+    .subscribe{background:var(--accent);color:#021026;padding:10px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+
+    footer{padding:40px 24px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero-inner{grid-template-columns:1fr; text-align:center}
+      .visual{order:-1;margin-bottom:10px}
+      .features{grid-template-columns:1fr}
+      header{padding:18px}
+    }
+    @media (max-width:520px){
+      .hero{padding:40px 12px}
+      header{flex-direction:column;align-items:flex-start;gap:12px}
+    }
+    /* subtle float animation */
+    @keyframes floaty { 0%{transform:translateY(0)}50%{transform:translateY(-14px)}100%{transform:translateY(0)} }
+    .planet{animation:floaty 8s ease-in-out infinite}
+
+    /* small utility */
+    .kicker{display:inline-block;padding:6px 10px;background:rgba(124,231,255,0.06);border-radius:999px;color:var(--accent);font-weight:700;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <header>
+    <div class="logo" aria-label="Space Logo">
+      <div class="mark" aria-hidden="true">S</div>
+      <div>
+        <div style="font-size:14px;color:var(--muted)">Space Lab</div>
+        <div style="font-size:12px;color:var(--muted)">Discover • Explore • Share</div>
+      </div>
+    </div>
+
+    <nav aria-label="Main Navigation">
+      <a href="#features">Features</a>
+      <a href="#missions">Missions</a>
+      <a href="#community">Community</a>
+      <button class="cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" role="banner">
+      <div class="hero-inner">
+        <div>
+          <div class="kicker" aria-hidden="true">New • Live Events</div>
+          <h1>Explore the Cosmos — Missions, Data & Community</h1>
+          <p>Join a global community of explorers. Track missions, visualize telescope data, and collaborate on cosmic discoveries.</p>
+          <div class="buttons">
+            <button class="cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Join the Mission</button>
+            <button class="btn-ghost" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Learn More</button>
+          </div>
+        </div>
+
+        <div class="visual" aria-hidden="true">
+          <div class="planet" id="planet" title="Animated planet"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features" aria-label="Features">
+      <article class="card">
+        <h3>Real-time Missions</h3>
+        <p class="muted">Track launches, live telemetry and mission timelines from agencies and private partners around the world.</p>
+      </article>
+      <article class="card">
+        <h3>Telescope Data</h3>
+        <p class="muted">View curated telescope feeds, download public datasets, and run visualizations in your browser.</p>
+      </article>
+      <article class="card">
+        <h3>Community Labs</h3>
+        <p class="muted">Collaborate on citizen science projects, host events, and share findings with teachers and hobbyists.</p>
+      </article>
+    </section>
+
+    <section id="signup" class="newsletter" aria-labelledby="newsletter-heading">
+      <div style="flex:1">
+        <h3 id="newsletter-heading" style="margin:0 0 6px 0">Stay updated</h3>
+        <div class="muted" style="margin-bottom:8px">Weekly briefing on missions, discoveries and events.</div>
+        <form onsubmit="subscribe(event)">
+          <input class="input" type="email" id="email" name="email" placeholder="you@space-mail.com" aria-label="Email address" required>
+          <button class="subscribe" type="submit">Subscribe</button>
+        </form>
+      </div>
+      <div style="width:280px;text-align:center;color:var(--muted)">
+        <div style="font-weight:700;font-size:18px">Launch Together</div>
+        <div style="font-size:13px;margin-top:6px">Be part of missions and community events.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>&copy; <span id="year"></span> Space Lab — Built for explorers</div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a href="#" aria-label="Twitter" style="color:var(--muted);text-decoration:none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M23 3s-1 .5-1.8 1.1c-1.5 1-3 1.4-4.7 1.9-1.6.4-3.2.9-4.8 1.6-1.8.8-3.6 1.8-5.5 3.2-1.1.8-2 1.6-2.6 2.6-.7 1.1-.3 2.2.6 2.6 1 .5 2.2.1 3.5-.5 1.4-.6 2.8-1.4 4.3-2.2 1.2-.6 2.4-1 3.6-1.2 1.1-.2 2.2-.2 3.3-.1v.1c0 2.7-1.8 5.3-4.6 6.9-2.6 1.5-5.9 1.7-8.7.6-2.6-1-4.5-3.3-5.5-6.3-.9-2.7-.4-5.4 1.4-7.5C6.4 5.1 9.4 4 12.7 4c.6 0 1.1 0 1.6.1 1.2.1 2.4.4 3.7.9C19.6 5.7 21.3 6.9 23 3z" fill="currentColor"/></svg>
+      </a>
+      <a href="#" aria-label="GitHub" style="color:var(--muted);text-decoration:none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 .5C5.7.5.8 5.4.8 11.7c0 4.8 3.1 8.9 7.4 10.3.5.1.7-.2.7-.5v-1.9c-3 0-3.6-1.4-3.8-2.7-.1-.5-.7-1.4-1.2-1.7-.4-.2-1.1-.7 0-.7 1 .1 1.7 1 2 1.4 1.2 2 3 1.4 3.7 1 .1-.8.5-1.4.9-1.8-2.7-.3-5.6-1.3-5.6-5.8 0-1.3.5-2.4 1.2-3.3-.1-.3-.5-1.7.1-3.5 0 0 1-.3 3.4 1.2a11.6 11.6 0 0 1 6.2 0C20 4 21 4.3 21 4.3c.6 1.8.2 3.2.1 3.5.8.9 1.2 2 1.2 3.3 0 4.6-2.9 5.5-5.7 5.8.5.5 1 1.4 1 2.8v4.1c0 .3.2.6.8.5 4.3-1.4 7.4-5.5 7.4-10.3C23.2 5.4 18.3.5 12 .5z" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // Small interactive behaviors:
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Parallax on mouse move for planet (subtle)
+    const planet = document.getElementById('planet');
+    document.addEventListener('mousemove', (e) => {
+      const cx = window.innerWidth/2;
+      const cy = window.innerHeight/2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      planet.style.transform = `translate3d(${dx*8}px, ${dy*-8}px, 0)`;
+    });
+
+    // Subscribe (demo)
+    function subscribe(e){
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      // This is a demo: replace with real POST endpoint.
+      alert('Thanks! A subscription confirmation would be sent to: ' + email);
+      e.target.reset();
+    }
+
+    // Smooth-scrolling polyfill for older browsers
+    (function() {
+      if ('scrollBehavior' in document.documentElement.style) return;
+      const links = document.querySelectorAll('a[href^="#"], button[onclick]');
+      links.forEach(l => l.addEventListener('click', function(e){
+        const href = this.getAttribute('href');
+        if (!href || href.charAt(0) !== '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 24;
+        window.scrollTo({top, behavior:'smooth'});
+      }));
+    })();
+  </script>
+</body>
+</html>
