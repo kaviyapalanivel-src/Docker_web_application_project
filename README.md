@@ -118,11 +118,6 @@ Verify nodes from manager.
 
 ---
 
-## Architecture Diagram
-
-User -> EC2 Manager -> EC2 Workers -> Amazon ECR
-
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/79baa2a0-d4b2-45a3-9d6c-4066a3e6d293" />
 
 
 ---
