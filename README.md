@@ -43,15 +43,15 @@ sudo usermod -aG docker ec2-user
 exit
 Login again after exit.
 
-## PHASE 3: Create Web Application (Manager Node)
+PHASE 3: Create Web Application (Manager Node)
 bash
 Copy code
 mkdir docker-web
 cd docker-web
 nano index.html
 Paste the full HTML code (Space Lab web page).
-
-## PHASE 4: Create Dockerfile
+----------------------
+ PHASE 4: Create Dockerfile
 bash
 Copy code
 nano Dockerfile
@@ -68,10 +68,12 @@ docker run -d -p 80:80 docker-web:v1
 docker ps
 ➡ Copy EC2 Public IP and open in browser
 
-<img width="1915" height="946" alt="image" src="https://github.com/user-attachments/assets/92e3ebc7-fbf8-456d-9534-b8a9c0b021f3" />
+<img width="1915" height="946" alt="image" src="https://github.com/user-attachments/assets/38b421e0-d619-4919-8752-aed831184b14" />
+
+
 ✔ Web page loads successfully
 
-## PHASE 6: Create Amazon ECR Repository
+ PHASE 6: Create Amazon ECR Repository
 Repository name: docker-web
 
 Image tag mutability: Mutable
@@ -83,7 +85,8 @@ Login to ECR:
 bash
 Copy code
 aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.ap-south-1.amazonaws.com
-## PHASE 7: AWS CLI Verification
+-------------------------
+ PHASE 7: AWS CLI Verification
 bash
 Copy code
 aws sts get-caller-identity
@@ -91,11 +94,12 @@ IAM Role attached to EC2:
 
 AmazonEC2ContainerRegistryFullAccess
 
-## PHASE 8: Push Image to ECR
+ PHASE 8: Push Image to ECR
 bash
 Copy code
 docker tag docker-web:v1 <account-id>.dkr.ecr.ap-south-1.amazonaws.com/docker-web:v1
 docker push <account-id>.dkr.ecr.ap-south-1.amazonaws.com/docker-web:v1
+---------------------------
 PHASE 9: Docker Swarm Initialization
 Manager Node
 bash
