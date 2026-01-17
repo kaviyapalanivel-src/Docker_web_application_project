@@ -67,8 +67,8 @@ docker images
 docker run -d -p 80:80 docker-web:v1
 docker ps
 ➡ Copy EC2 Public IP and open in browser
-<img width="1915" height="946" alt="image" src="https://github.com/user-attachments/assets/ba222f87-dafe-44c3-8424-dec5fb18427a" />
 
+<img width="1915" height="946" alt="image" src="https://github.com/user-attachments/assets/92e3ebc7-fbf8-456d-9534-b8a9c0b021f3" />
 ✔ Web page loads successfully
 
 ## PHASE 6: Create Amazon ECR Repository
