@@ -16,7 +16,8 @@ The setup includes one Manager node and two Worker nodes, orchestrated using Doc
 ---
 
 ## PHASE 1: EC2 Instance Setup
-![Uploading image.png…]()
+<img width="1912" height="823" alt="image" src="https://github.com/user-attachments/assets/7e2896ba-3dc0-4f49-a039-6f094a8c5478" />
+
 
 ### Instances Launched
 - One Manager Instance
