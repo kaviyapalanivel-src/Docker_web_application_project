@@ -69,6 +69,7 @@ docker images
 docker run -d -p 80:80 docker-web:v1  
 
 Open EC2 public IP in browser to verify.
+<img width="1915" height="946" alt="image" src="https://github.com/user-attachments/assets/74055323-1fcb-4787-8be5-b066922a82fd" />
 
 ---
 
@@ -131,5 +132,4 @@ User -> EC2 Manager -> EC2 Workers -> Amazon ECR
 
 ---
 
-## Author
-Jagadeesh
+
