@@ -121,7 +121,8 @@ Verify nodes from manager.
 ## Architecture Diagram
 
 
-![Uploading docker-swarm-architecture.png…]()
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/8de262ef-70fd-42e9-9cc9-06c4d6261563" />
+
 
 
 ---
