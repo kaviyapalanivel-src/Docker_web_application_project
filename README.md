@@ -16,7 +16,7 @@ The setup includes one **Manager node** and two **Worker nodes**, orchestrated u
 ---
 
 ## PHASE 1: EC2 Instance Setup
-
+<img width="1911" height="831" alt="image" src="https://github.com/user-attachments/assets/e59ebde7-6d5f-448a-9ded-171a531c00a6" />
 ### Instances Launched
 - 1 Manager Instance
 - 2 Worker Node Instances
@@ -67,6 +67,8 @@ docker images
 docker run -d -p 80:80 docker-web:v1
 docker ps
 ➡ Copy EC2 Public IP and open in browser
+<img width="1915" height="946" alt="image" src="https://github.com/user-attachments/assets/ba222f87-dafe-44c3-8424-dec5fb18427a" />
+
 ✔ Web page loads successfully
 
 ## PHASE 6: Create Amazon ECR Repository
